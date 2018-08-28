@@ -1,0 +1,29 @@
+version: "2"
+services:
+  server:
+    build: .
+    ports:
+      - "80:80"
+      - "4043:443"
+    volumes:
+      - ./public_html:/var/www/app
+    links:
+      - mysql
+      - phpmyadmin
+
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: lamp
+      MYSQL_USER: lamp_user
+      MYSQL_PASSWORD: lamp_pass
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    links:
+      - mysql
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_ARBITRARY=1
