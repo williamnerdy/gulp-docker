@@ -3,25 +3,27 @@
 var gulp = require('gulp');
 
 var sass = require('gulp-sass'),
-    cleanCSS = require('gulp-clean-css'),
-    autoprefixer = require('gulp-autoprefixer');
+  cleanCSS = require('gulp-clean-css'),
+  autoprefixer = require('gulp-autoprefixer');
 
 var gulp = require('gulp'),
-    babelify = require('babelify'),
-    browserify = require('browserify'),
-    source = require('vinyl-source-stream'),
-    buffer = require('vinyl-buffer'),
-    eslint = require('gulp-eslint'),
-    uglify = require('gulp-uglify'),
-    sourcemaps = require('gulp-sourcemaps');
+  babelify = require('babelify'),
+  browserify = require('browserify'),
+  source = require('vinyl-source-stream'),
+  buffer = require('vinyl-buffer'),
+  eslint = require('gulp-eslint'),
+  uglify = require('gulp-uglify'),
+  sourcemaps = require('gulp-sourcemaps');
 
 var ASSETS_DIR = 'public_html/assets';
 
-var ENTRY_CSS = './app/sass/main.scss',
-    DEST_CSS = ASSETS_DIR + '/styles';
+var SRC_CSS = './app/sass',
+  ENTRY_CSS = SRC_CSS + '/main.scss',
+  DEST_CSS = ASSETS_DIR + '/styles';
 
-var ENTRY_JS = './app/js/index.js',
-    DEST_JS = ASSETS_DIR + '/scripts';
+var SRC_JS = './app/js',
+  ENTRY_JS = SRC_JS + '/index.js',
+  DEST_JS = ASSETS_DIR + '/scripts';
 
 gulp.task('css', function () {
   return gulp
@@ -55,13 +57,13 @@ gulp.task('js', function () {
     .pipe(gulp.dest(DEST_JS));
 });
 
-gulp.task('static', function() {
-  gulp.src('static/*').pipe(gulp.dest(ASSETS_DIR));
+gulp.task('static', function () {
+  gulp.src('static/**/*').pipe(gulp.dest(ASSETS_DIR));
 });
 
 gulp.task('watch', ['default'], function () {
-  gulp.watch(ENTRY_CSS, ['css']);
-  gulp.watch(ENTRY_JS, ['js']);
+  gulp.watch(SRC_CSS + '/**/*.scss', ['css']);
+  gulp.watch(SRC_JS + '/**/*.js', ['js']);
 });
 
 gulp.task('default', ['static', 'css', 'js']);
