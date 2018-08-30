@@ -7,7 +7,6 @@ var sass = require('gulp-sass'),
   autoprefixer = require('gulp-autoprefixer');
 
 var gulp = require('gulp'),
-  babelify = require('babelify'),
   browserify = require('browserify'),
   source = require('vinyl-source-stream'),
   buffer = require('vinyl-buffer'),
@@ -38,13 +37,14 @@ gulp.task('css', function () {
 
 gulp.task('js', function () {
   return browserify({
+    debug: true,
     entries: [ENTRY_JS]
   })
-    .transform(
-      babelify.configure({
-        presets: ['@babel/env']
-      })
-    )
+    .transform('babelify', {
+      presets: ['@babel/preset-env'],
+      global: true,
+      sourceMaps: false
+    })
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(buffer())
